@@ -98,20 +98,20 @@ public class PostsController {
      * @throws PostNotFoundException
      *             If there are no matches at all.
      */
-    @RequestMapping("/posts/owner/{name}")
-    public List<Post> byOwner(@PathVariable("name") String partialName) {
-        logger.info("accounts-service byOwner() invoked: "
+    @RequestMapping("/posts/subject/{name}")
+    public List<Post> bySubject(@PathVariable("name") String partialName) {
+        logger.info("accounts-service bySubject() invoked: "
                 + postRepository.getClass().getName() + " for "
                 + partialName);
 
-        List<Post> accounts = postRepository
+        List<Post> posts = postRepository
                 .findBySubjectContainingIgnoreCase(partialName);
-        logger.info("accounts-service byOwner() found: " + accounts);
+        logger.info("accounts-service bySubject() found: " + posts);
 
-        if (accounts == null || accounts.size() == 0)
+        if (posts == null || posts.size() == 0)
             throw new PostNotFoundException(partialName);
         else {
-            return accounts;
+            return posts;
         }
     }
 }
