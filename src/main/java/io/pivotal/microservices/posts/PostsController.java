@@ -47,16 +47,18 @@ public class PostsController {
      *             If the number is not recognised.
      */
     @RequestMapping("/posts/{accountNumber}")
-    public Post byNumber(@PathVariable("accountNumber") String accountNumber) {
+    public List<Post> byNumber(@PathVariable("accountNumber") String accountNumber) {
 
         logger.info("accounts-service byNumber() invoked: " + accountNumber);
-        Post account = postRepository.findByNumber(accountNumber);
-        logger.info("accounts-service byNumber() found: " + account);
+        //Post account = postRepository.findByNumber(accountNumber);
+        List<Post> posts = postRepository
+                .findByNumber(accountNumber);
+        logger.info("accounts-service byNumber() found: " + posts);
 
-        if (account == null)
+        if (posts == null)
             throw new PostNotFoundException(accountNumber);
         else {
-            return account;
+            return posts;
         }
     }
 
@@ -85,6 +87,33 @@ public class PostsController {
         else {
             return posts;
         }
+    }
+
+
+    /**
+     * add post with the specified thread. So <code>http://.../posts/createthread/{thread}/{account}/{subject}/{body}
+     * will add new post
+     *
+     * @param thread
+     * @return A non-null, non-empty set of posts.
+     * @throws ThreadNotFoundException
+     *             If there are no matches at all.
+     */
+    @RequestMapping("/posts/createthread/{thread}/{account}/{subject}/{body}")
+    public void createThread(@PathVariable("thread") String thread,
+                             @PathVariable("account") String account,
+                             @PathVariable("subject") String subject,
+                             @PathVariable("body") String body) {
+        logger.info("posts-service createThread() invoked: "
+                + postRepository.getClass().getName() + " for "
+                + "thread: " + thread
+                + "account: " + account
+                + "subject: " + subject
+                + "body: " + body
+        );
+
+        Post document = new Post(account, thread, subject, body); // Note: sorder is different here.
+        postRepository.save(document);
     }
 
 
