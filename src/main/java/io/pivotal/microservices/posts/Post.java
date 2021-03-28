@@ -27,9 +27,11 @@ public class Post implements Serializable {
 	protected Long id;
 
 	protected String number;
+	protected String thread;
 
-	@Column(name = "name")
-	protected String owner;
+	@Column(name = "subject")
+	protected String subject;
+	protected String body;
 
 	protected BigDecimal balance;
 
@@ -53,10 +55,21 @@ public class Post implements Serializable {
 		balance = BigDecimal.ZERO;
 	}
 
-	public Post(String number, String owner) {
+	public Post(String number, String subject) {
 		id = getNextId();
 		this.number = number;
-		this.owner = owner;
+		this.thread = "777777777";
+		this.subject = subject;
+		this.body = "empty body";
+		balance = BigDecimal.ZERO;
+	}
+
+	public Post(String number, String thread, String subject, String body) {
+		id = getNextId();
+		this.number = number;
+		this.thread = thread;
+		this.subject = subject;
+		this.body = body;
 		balance = BigDecimal.ZERO;
 	}
 
@@ -82,12 +95,28 @@ public class Post implements Serializable {
 		this.number = accountNumber;
 	}
 
-	public String getOwner() {
-		return owner;
+	public String getThread() {
+		return thread;
 	}
 
-	protected void setOwner(String owner) {
-		this.owner = owner;
+	protected void setThread(String thread) {
+		this.thread = thread;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	protected void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	protected void setBody(String body) {
+		this.body = body;
 	}
 
 	public BigDecimal getBalance() {
@@ -104,7 +133,7 @@ public class Post implements Serializable {
 
 	@Override
 	public String toString() {
-		return number + " [" + owner + "]: $" + balance;
+		return number + " [" + subject + "]: $" + balance;
 	}
 
 }

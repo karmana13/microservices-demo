@@ -18,6 +18,7 @@ public interface PostRepository extends Repository<Post, Long> {
      * @return The account if found, null otherwise.
      */
     public Post findByNumber(String accountNumber);
+    public List<Post> findByThread(String thread);
 
     /**
      * Find accounts whose owner name contains the specified string
@@ -27,7 +28,7 @@ public interface PostRepository extends Repository<Post, Long> {
      * @return The list of matching accounts - always non-null, but may be
      *         empty.
      */
-    public List<Post> findByOwnerContainingIgnoreCase(String partialName);
+    public List<Post> findBySubjectContainingIgnoreCase(String partialName);
 
     /**
      * Fetch the number of accounts known to the system.
