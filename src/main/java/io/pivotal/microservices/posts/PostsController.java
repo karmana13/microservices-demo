@@ -38,22 +38,22 @@ public class PostsController {
     }
 
     /**
-     * Fetch an account with the specified account number.
+     * Fetch a post with the specified account number.
      *
      * @param accountNumber
      *            A numeric, 9 digit account number.
-     * @return The account if found.
+     * @return A non-null, non-empty set of posts
      * @throws PostNotFoundException
      *             If the number is not recognised.
      */
     @RequestMapping("/posts/{accountNumber}")
     public List<Post> byNumber(@PathVariable("accountNumber") String accountNumber) {
 
-        logger.info("accounts-service byNumber() invoked: " + accountNumber);
+        logger.info("posts-service byNumber() invoked: " + accountNumber);
         //Post account = postRepository.findByNumber(accountNumber);
         List<Post> posts = postRepository
                 .findByNumber(accountNumber);
-        logger.info("accounts-service byNumber() found: " + posts);
+        logger.info("posts-service byNumber() found: " + posts);
 
         if (posts == null)
             throw new PostNotFoundException(accountNumber);
@@ -74,13 +74,13 @@ public class PostsController {
      */
     @RequestMapping("/posts/thread/{thread}")
     public List<Post> byThread(@PathVariable("thread") String thread) {
-        logger.info("accounts-service byThread() invoked: "
+        logger.info("posts-service byThread() invoked: "
                 + postRepository.getClass().getName() + " for "
                 + thread);
 
         List<Post> posts = postRepository
                 .findByThread(thread);
-        logger.info("accounts-service byThread() found: " + posts);
+        logger.info("posts-service byThread() found: " + posts);
 
         if (posts == null || posts.size() == 0)
             throw new ThreadNotFoundException(thread);
@@ -91,20 +91,24 @@ public class PostsController {
 
 
     /**
-     * add post with the specified thread. So <code>http://.../posts/createthread/{thread}/{account}/{subject}/{body}
+     * add post with the specified thread.
+     * So <code>http://.../posts/addtothread/{thread}/{account}/{subject}/{body}
      * will add new post
      *
      * @param thread
-     * @return A non-null, non-empty set of posts.
+     * @param account
+     * @param subject
+     * @param body
+     * @return A String
      * @throws ThreadNotFoundException
      *             If there are no matches at all.
      */
-    @RequestMapping("/posts/createthread/{thread}/{account}/{subject}/{body}")
-    public void createThread(@PathVariable("thread") String thread,
+    @RequestMapping("/posts/addtothread/{thread}/{account}/{subject}/{body}")
+    public String addtothread(@PathVariable("thread") String thread,
                              @PathVariable("account") String account,
                              @PathVariable("subject") String subject,
                              @PathVariable("body") String body) {
-        logger.info("posts-service createThread() invoked: "
+        logger.info("posts-service addtothread() invoked: "
                 + postRepository.getClass().getName() + " for "
                 + "thread: " + thread
                 + "account: " + account
@@ -112,8 +116,48 @@ public class PostsController {
                 + "body: " + body
         );
 
-        Post document = new Post(account, thread, subject, body); // Note: sorder is different here.
+        List<Post> posts = postRepository.findByThread(thread);
+        logger.info("posts-service addtothread() found: " + posts);
+
+        if (posts == null || posts.size() == 0)
+            throw new ThreadNotFoundException(thread);
+        else {
+            logger.info("posts-service addtothread() : thread exists. adding a post" );
+            Post document = new Post(account, thread, subject, body); // Note: order is different here.
+            postRepository.save(document);
+            return "success";
+        }
+    }
+
+
+    /**
+     * add post by creating new thread.
+     * So <code>http://.../posts/createthread/{account}/{subject}/{body}
+     * will add new post to a new thread.
+     *
+     * @param account
+     * @param subject
+     * @param body
+     * @return A String
+     * @throws ThreadNotFoundException
+     *             If there are no matches at all.
+     */
+    @RequestMapping("/posts/createthread/{account}/{subject}/{body}")
+    public String createThread(@PathVariable("account") String account,
+                               @PathVariable("subject") String subject,
+                               @PathVariable("body") String body) {
+        logger.info("posts-service createThread() invoked: "
+                + postRepository.getClass().getName() + " for "
+                + "account: " + account
+                + "subject: " + subject
+                + "body: " + body
+        );
+
+        logger.info("posts-service createThread() : adding a post with new thread" );
+        Post document = new Post(account, subject, body); // Note: order is different here.
         postRepository.save(document);
+        return "success";
+
     }
 
 

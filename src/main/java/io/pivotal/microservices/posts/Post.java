@@ -21,13 +21,13 @@ public class Post implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static Long nextId = 0L;
-	public static Long nextThread = 0L;
+	public static Long nextId = 1000L;
+	public static Long nextThread = 1000L;
 
 	@Id
 	protected Long id;
 
-	protected String number;
+	protected String number; //TODO  modify to accountnumber
 	protected String thread;
 
 	@Column(name = "subject")
@@ -65,12 +65,12 @@ public class Post implements Serializable {
 	protected Post() {
 
 	}
-	public Post(String number, String subject) {
+	public Post(String number, String subject, String body) {
 		id = getNextId();
 		this.number = number;
 		this.thread = getNextThread().toString();
 		this.subject = subject;
-		this.body = "empty body";
+		this.body = body;
 
 	}
 
