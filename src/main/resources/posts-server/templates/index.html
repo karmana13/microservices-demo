@@ -1,0 +1,39 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+	<h1>Microservices - Post Server</h1>
+
+	<p>Posts Server Microservice is running.</p>
+
+	<p>
+		Get Post by accountNumber: <a href="/posts/123456789">/posts/123456789</a>.
+	</p>
+	<p>
+		Get Posts by thread:
+		<a href="/posts/thread/666666666">/posts/thread/666666666</a>
+		<a href="/posts/thread/999999999">/posts/thread/999999999</a>
+	</p>
+
+	<p>
+		Add a new post to thread 999999999
+		<a href="/posts/addtothread/999999999/123456789/testSubject2/testBody2">/posts/addtothread/999999999/123456789/testSubject2/testBody2</a>
+	</p>
+
+	<p>
+		Create a new thread:
+		<a href="/posts/createthread/123456789/testSubject/testBody">/posts/createthread/123456789/testSubject/testBody"</a>
+	</p>
+
+	<p>
+		Get all posts grouped by thread:
+		<a href="/posts/getforum">/posts/getforum</a>
+	</p>
+
+	<div th:replace="footer :: copy"></div>
+
+</body>
+</html>
