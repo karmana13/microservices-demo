@@ -5,7 +5,7 @@
 <head th:replace="header :: copy"></head>
 
 <body>
-<h3> <a th:href="@{/posts/createthread}">Create Thread</a></h3>
+
 
 <div th:if="not ${posts}">
     <div class="alert alert-warning m-2">
@@ -15,15 +15,17 @@
 </div>
 
 <div th:if="${posts}">
-    <p>
+   <!--
+   <p>
         Posts ' <span th:text="${search}">text</span>'
         are:
     </p>
+    -->
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Thread</th>
+           <!-- <th>Thread</th> -->
             <th>Account Number</th>
             <th>Subject</th>
             <th>Body</th>
@@ -37,7 +39,7 @@
                 th:href="@{|/accounts/${account.number}|}"
                 th:text="|${account.number}|">11111111</a></td>
                 -->
-            <td th:text="${post.thread}">11111111</td>
+            <!-- <td th:text="${post.thread}">11111111</td> -->
             <td th:text="${post.number}">11111111</td>
             <td th:text="${post.subject}">Owner</td>
             <td th:text="${post.body}">body</td>
