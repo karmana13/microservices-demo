@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 public class ForumPostsController {
 
     protected String currentThread;
+    protected String currentAccountNumber;
 
     @Autowired
     protected ForumPostsService postsService;
@@ -61,9 +62,12 @@ public class ForumPostsController {
         model.addAttribute("posts", posts);
         return "posts";
     }
-    @RequestMapping("/posts/getthreads")
-    public String getThreads(Model model) {
+    @RequestMapping("/accounts/dologin/{accountNumber}/posts/getthreads")
+    public String getThreads(Model model, @PathVariable("accountNumber") String accountNumber) {
         logger.info("forum-service getThreads() invoked.");
+
+        currentAccountNumber = accountNumber;
+        logger.info("forum-service currentAccountNumber = " + currentAccountNumber);
 
         List<String> threads = postsService.getThreads();
         logger.info("forum-service getThreads() found: " + threads);
@@ -132,7 +136,7 @@ public class ForumPostsController {
             return "createthread";
 
         logger.info("criteria = " + criteria);
-        String accountNumber = criteria.getAccountNumber();
+        String accountNumber = currentAccountNumber;
         String subject = criteria.getSubject();
         String body = criteria.getBody();
 
@@ -146,8 +150,6 @@ public class ForumPostsController {
             postsService.createThread(accountNumber, subject, body);
         }
 
-        // postsService.createThread(accountNumber, subject, body);
-        //return byNumber(model, accountNumber);
-        return getForum(model);
+        return byNumber(model, accountNumber);
     }
 }

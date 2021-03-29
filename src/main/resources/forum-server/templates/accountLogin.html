@@ -1,0 +1,42 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+<h1>Account Login</h1>
+
+<p>Enter an account number</p>
+
+<form class="bg-gray" action="#" th:object="${searchCriteria}" method="GET"
+      th:action="@{/accounts/dologin}">
+
+    <div class="row">
+        <!-- Account Number field -->
+        <div class="form-group col-4">
+            <label for="number" class="control-label col-xs-2">Account Number</label>
+            <input type="text" class="form-control" id="number"
+                   th:field="*{accountNumber}" placeholder="Enter account number" style="width: 15em;" />
+            <small class="form-text text-muted">Enter a valid 9 digit number</small>
+        </div>
+
+        <!-- Account Number errors (if any) -->
+        <div class="col-5 p-4">
+ 				<span th:if="${#fields.hasErrors('accountNumber')}"
+                      style="color: red; font-size: smaller" th:errors="*{accountNumber}">Incorrect data</span>
+        </div>
+    </div>
+
+    <!--  Login button -->
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </div>
+</form>
+
+<div th:replace="footer :: copy"></div>
+
+</body>
+</html>

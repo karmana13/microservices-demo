@@ -23,10 +23,7 @@
 			<dt class="col-1">Owner</dt>
 			<dd th:text="${account.owner}">number</dd>
 	    </dl>
-	    <dl class="row">
-			<dt class="col-1">Balance</dt>
-			<dd th:text="${account.balance}">number</dd>
-		</dl>
+		<h3><a th:href="@{__${#httpServletRequest.requestURI}__/__${account.number}__/posts/getthreads}">Access Forum Threads</a></h3>
 	</div>
 
 	<div class="row" style="height: 2cm">&nbsp;</div>

@@ -95,4 +95,29 @@ public class ForumAccountsController {
             return ownerSearch(model, searchText);
         }
     }
+    @RequestMapping(value = "/accounts/login", method = RequestMethod.GET)
+    public String loginForm(Model model) {
+        model.addAttribute("searchCriteria", new SearchCriteria());
+        return "accountLogin";
+    }
+
+    @RequestMapping(value = "/accounts/dologin")
+    public String doLogin(Model model, SearchCriteria criteria, BindingResult result) {
+        logger.info("web-service login() invoked: " + criteria);
+
+        criteria.validate(result);
+
+        if (result.hasErrors())
+            return "accountLogin";
+
+        String accountNumber = criteria.getAccountNumber();
+        if (StringUtils.hasText(accountNumber)) {
+            return byNumber(model, accountNumber);
+        }
+        else
+        {
+            return "accountLogin";
+        }
+    }
+
 }
