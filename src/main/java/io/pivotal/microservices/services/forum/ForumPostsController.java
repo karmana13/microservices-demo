@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -36,7 +37,6 @@ public class ForumPostsController {
     }
 
     @InitBinder
-    // TODO need to understand purpose of this.
     public void initBinder(WebDataBinder binder) {
         binder.setAllowedFields("accountNumber", "subject", "body");
     }
@@ -71,9 +71,17 @@ public class ForumPostsController {
 
         List<String> threads = postsService.getThreads();
         logger.info("forum-service getThreads() found: " + threads);
+
+        List<Post> firstPosts = new ArrayList<Post>();
+        for(String thread : threads)
+        {
+            List<Post> posts = postsService.byThread(thread);
+            firstPosts.add(posts.get(0));
+        }
+
         //model.addAttribute("search", name);
         if (threads != null)
-            model.addAttribute("threads", threads);
+            model.addAttribute("firstposts", firstPosts);
         return "threads";
     }
 
@@ -150,6 +158,7 @@ public class ForumPostsController {
             postsService.createThread(accountNumber, subject, body);
         }
 
-        return byNumber(model, accountNumber);
+        //return byNumber(model, accountNumber);
+        return getForum(model);
     }
 }

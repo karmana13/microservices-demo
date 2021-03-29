@@ -8,30 +8,35 @@
 <h3> <a th:href="@{/posts/createthread}">Create Thread</a></h3>
 
 
-<div th:if="not ${threads}">
+<div th:if="not ${firstposts}">
     <div class="alert alert-warning m-2">
         No threads found.
     </div>
     <div style="height: 2cm">&nbsp;</div>
 </div>
 
-<div th:if="${threads}">
+<div th:if="${firstposts}">
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Thread ID</th>
+            <!--<th>Thread ID</th>-->
+            <th>Subject</th>
+            <th>Body</th>
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each="thread : ${threads}">
-
-
+        <tr th:each="post : ${firstposts}">
+            <!--
             <td><a href="posts.html"
-                   th:href="@{|/posts/thread/${thread}|}"
-                   th:text="|${thread}|">11111111</a></td>
-
+                th:href="@{|/posts/thread/${post.thread}|}"
+                th:text="|${post.thread}|">11111111</a></td>
+                -->
+            <td><a href="posts.html"
+            th:href="@{|/posts/thread/${post.thread}|}"
+            th:text="|${post.subject}|">subject</a></td>
+            <td th:text="${post.body}">body</td>
         </tr>
         </tbody>
     </table>
