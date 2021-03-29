@@ -1,27 +1,38 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="header :: copy"></head>
 
 <body>
 
-	<h1>Forum Demo</h1>
-	<h3>Overview</h3>
-	<ul>
-		<li>Demo defines a simple web-application for accessing accounts
-			data.</li>
-		<li>All the account information is fetched via a RESTful
-			interface to a Accounts microservice.</li>
-	</ul>
+<h2>Forum Server</h2>
 
-	<h3>The Demo</h3>
+<p>Instructions:</p>
+<ul class="openlist">
+	<li>Use Account Login Button to login first.</li>
+	<li>Posts are not visible without logging in. few sample accounts that can be used are 123456789, 123456001, 123456007</li>
+	<li>after logging in, access Forum Threads. to view posts in thread, use hyperlink of the thread subject.</li>
+	<li>with "Create Thread" Button, create new thread.</li>
+	<li>to add a post to existing thread, go inside thread first and then use "Add Post to This Thread" button</li>
+	<li>after adding a post, service shows list of posts by the same account. to access the forum thread by thread, login again. </li>
+</ul>
 
+<p>Forum Server Microservice is running. Can Try below links for testing post service</p>
+
+
+
+<ul class="openlist">
+	<li> Registry Service related</li>
 	<ul class="openlist">
 		<li>Eureka Dashboard: <a
-			href="http://localhost:1111">http://localhost:1111</a></li>
+				href="http://localhost:1111">http://localhost:1111</a></li>
 		<li>Check applications registered: <a
-			href="http://localhost:1111/eureka/apps/">http://localhost:1111/eureka/apps/</a></li>
+				href="http://localhost:1111/eureka/apps/">http://localhost:1111/eureka/apps/</a></li>
+	</ul>
+
+	<li> Account Service related</li>
+	<ul class="openlist">
 		<li>Fetch account #123456789: <a th:href="@{/accounts/123456789}">/accounts/123456789</a></li>
 
 		<li>Fetch by name: <a th:href="@{/accounts/owner/Keri}">/accounts/owner/Keri</a></li>
@@ -29,37 +40,21 @@
 		<li>Account <a th:href="@{/accounts/search}">Search</a></li>
 
 		<li>Account Login<a th:href="@{/accounts/login}">Account Login</a></li>
+	</ul>
 
+	<li> Post Service related</li>
+	<ul class="openlist">
 		<li>Fetch post by account #123456789: <a th:href="@{/posts/account/123456789}">/posts/account/123456789</a></li>
-
-		<li>Fetch post by subject "ke": <a th:href="@{/posts/subject/ke}">/posts/subject/ke</a></li>
-
-		<li>Get Forum: <a th:href="@{/posts/getforum}">/posts/getforum</a></li>
 
 		<li>Create New thread Form <a th:href="@{/posts/createthread}">/posts/createthread</a></li>
 
 		<li>Get Thread by thread ID<a th:href="@{/posts/thread/999999999}">/posts/thread/999999999</a></li>
 
-		<li>Get All Threads <a th:href="@{/posts/getthreads}">/posts/getthreads</a></li>
 	</ul>
+</ul>
 
-	<h3>Spring Boot URLs</h3>
-	<p>For those interested, Spring Boot provides RESTful URLs for
-		interrogating your application (they return JSON format data):</p>
 
-	<ul>
-		<li><a th:href="@{/actuator/beans}">The beans</a></li>
-		<li><a th:href="@{/actuator/env}">The environment</a></li>
-		<li><a th:href="@{/actuator/health}">Application health</a></li>
-		<li><a th:href="@{/actuator/mappings}">URL Mappings</a> - including
-		     the /account mappings</li>
-		<li><a th:href="@{/actuator/metrics}">Application metrics</a> - add any 
-		     metric name to the end of this URL, for example 
-		     <a th:href="@{/actuator/metrics/http.server.requests}">/actuator/metrics/http.server.requests</a></li>
-		<li><a th:href="@{/actuator}">List of actuator endpoints</a></li>
-	</ul>
-
-	<div th:replace="footer :: copy"></div>
+<div th:replace="footer :: copy"></div>
 
 </body>
 </html>
