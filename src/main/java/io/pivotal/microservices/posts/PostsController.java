@@ -1,4 +1,5 @@
 package io.pivotal.microservices.posts;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.pivotal.microservices.exceptions.PostNotFoundException;
 import io.pivotal.microservices.exceptions.ThreadNotFoundException;
 
+
+
 /**
- * A RESTFul controller for accessing account information.
+ * A RESTFul controller for accessing posts information.
  *
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @RestController
 public class PostsController {
@@ -34,7 +37,7 @@ public class PostsController {
         this.postRepository = postRepository;
 
         logger.info("PostRepository says system has "
-                + postRepository.countAccounts() + " accounts");
+                + postRepository.countPosts() + " posts");
     }
 
     /**
@@ -42,7 +45,7 @@ public class PostsController {
      *
      * @param accountNumber
      *            A numeric, 9 digit account number.
-     * @return A non-null, non-empty set of posts
+     * @return A non-null, non-empty set of posts.
      * @throws PostNotFoundException
      *             If the number is not recognised.
      */
@@ -50,12 +53,10 @@ public class PostsController {
     public List<Post> byNumber(@PathVariable("accountNumber") String accountNumber) {
 
         logger.info("posts-service byNumber() invoked: " + accountNumber);
-        //Post account = postRepository.findByNumber(accountNumber);
-        List<Post> posts = postRepository
-                .findByNumber(accountNumber);
+        List<Post> posts = postRepository.findByNumber(accountNumber);
         logger.info("posts-service byNumber() found: " + posts);
 
-        if (posts == null)
+        if (posts == null || posts.size() == 0)
             throw new PostNotFoundException(accountNumber);
         else {
             return posts;
@@ -63,9 +64,9 @@ public class PostsController {
     }
 
     /**
-     * Fetch posts with the specified thread. A partial case-insensitive match
-     * is supported. So <code>http://.../posts/thread/a</code> will find any
-     * accounts with upper or lower case 'a' in their name.
+     * Fetch posts with the specified thread.
+     * So <code>http://.../posts/thread/a</code> will find all
+     * posts in the thread.
      *
      * @param thread
      * @return A non-null, non-empty set of posts.
@@ -89,9 +90,8 @@ public class PostsController {
         }
     }
 
-
     /**
-     * add post with the specified thread.
+     * add post to an existing thread.
      * So <code>http://.../posts/addtothread/{thread}/{account}/{subject}/{body}
      * will add new post
      *
@@ -105,20 +105,21 @@ public class PostsController {
      */
     @RequestMapping("/posts/addtothread/{thread}/{account}/{subject}/{body}")
     public String addtothread(@PathVariable("thread") String thread,
-                             @PathVariable("account") String account,
-                             @PathVariable("subject") String subject,
-                             @PathVariable("body") String body) {
+                              @PathVariable("account") String account,
+                              @PathVariable("subject") String subject,
+                              @PathVariable("body") String body) {
         logger.info("posts-service addtothread() invoked: "
                 + postRepository.getClass().getName() + " for "
-                + "thread: " + thread
-                + "account: " + account
-                + "subject: " + subject
-                + "body: " + body
+                + " thread: " + thread
+                + " account: " + account
+                + " subject: " + subject
+                + " body: " + body
         );
 
         List<Post> posts = postRepository.findByThread(thread);
         logger.info("posts-service addtothread() found: " + posts);
 
+        // verify that thread exists, else throw exception.
         if (posts == null || posts.size() == 0)
             throw new ThreadNotFoundException(thread);
         else {
@@ -133,14 +134,12 @@ public class PostsController {
     /**
      * add post by creating new thread.
      * So <code>http://.../posts/createthread/{account}/{subject}/{body}
-     * will add new post to a new thread.
+     * will add new post in a new thread.
      *
      * @param account
      * @param subject
      * @param body
      * @return A String
-     * @throws ThreadNotFoundException
-     *             If there are no matches at all.
      */
     @RequestMapping("/posts/createthread/{account}/{subject}/{body}")
     public String createThread(@PathVariable("account") String account,
@@ -148,82 +147,19 @@ public class PostsController {
                                @PathVariable("body") String body) {
         logger.info("posts-service createThread() invoked: "
                 + postRepository.getClass().getName() + " for "
-                + "account: " + account
-                + "subject: " + subject
-                + "body: " + body
+                + " account: " + account
+                + " subject: " + subject
+                + " body: " + body
         );
 
         logger.info("posts-service createThread() : adding a post with new thread" );
-        Post document = new Post(account, subject, body); // Note: order is different here.
+        Post document = new Post(account, subject, body);
         postRepository.save(document);
         return "success";
-
     }
 
-
     /**
-     * Fetch accounts with the specified name. A partial case-insensitive match
-     * is supported. So <code>http://.../accounts/owner/a</code> will find any
-     * accounts with upper or lower case 'a' in their name.
-     *
-     * @param partialName
-     * @return A non-null, non-empty set of accounts.
-     * @throws PostNotFoundException
-     *             If there are no matches at all.
-     */
-    @RequestMapping("/posts/subject/{name}")
-    public List<Post> bySubject(@PathVariable("name") String partialName) {
-        logger.info("accounts-service bySubject() invoked: "
-                + postRepository.getClass().getName() + " for "
-                + partialName);
-
-        List<Post> posts = postRepository
-                .findBySubjectContainingIgnoreCase(partialName);
-        logger.info("accounts-service bySubject() found: " + posts);
-
-        if (posts == null || posts.size() == 0)
-            throw new PostNotFoundException(partialName);
-        else {
-            return posts;
-        }
-    }
-
-
-    /**
-     * Fetch all posts group by threads.
-     *
-     * @return A non-null, non-empty set of threads, that includes all posts.
-     * @throws PostNotFoundException
-     *             If there are no matches at all.
-     */
-    @RequestMapping("/posts/getforum")
-    public List<List<Post>> getforum() {
-        logger.info("posts-service getforum() invoked: "
-                + postRepository.getClass().getName());
-
-        List<List<Post>> results = new ArrayList<List<Post>>();
-
-        List<String> threads = postRepository.getDistinctThreads();
-
-        logger.info("post-service getforum() found threads : " + threads);
-
-        for(String thread: threads)
-        {
-            List<Post> postsInThread = postRepository.findByThread(thread);
-            results.add(postsInThread);
-        }
-
-        for(List<Post> plist: results)
-        {
-            logger.info("post-service getforum() thread by thread:" + plist);
-        }
-
-        logger.info("post-service getforum() results :" + results);
-
-        return results;
-    }
-    /**
-     * Fetch all  threads.
+     * Fetch all threads.
      *
      * @return A non-null, non-empty set of threads
      * @throws PostNotFoundException
