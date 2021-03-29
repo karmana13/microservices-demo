@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 /**
  * Account DTO - used to interact with the {@link ForumAcccountsService}.
  *
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @JsonRootName("Account")
 public class Account {
@@ -16,7 +16,7 @@ public class Account {
     protected Long id;
     protected String number;
     protected String owner;
-    protected BigDecimal balance;
+    protected BigDecimal balance;		// not used.
 
     /**
      * Default constructor for JPA only.
@@ -28,13 +28,6 @@ public class Account {
     public long getId() {
         return id;
     }
-
-    /**
-     * Set JPA id - for testing and JPA only. Not intended for normal use.
-     *
-     * @param id
-     *            The new id.
-     */
     protected void setId(long id) {
         this.id = id;
     }
@@ -42,7 +35,6 @@ public class Account {
     public String getNumber() {
         return number;
     }
-
     protected void setNumber(String accountNumber) {
         this.number = accountNumber;
     }
@@ -50,15 +42,14 @@ public class Account {
     public String getOwner() {
         return owner;
     }
-
     protected void setOwner(String owner) {
         this.owner = owner;
     }
 
+    // not used.
     public BigDecimal getBalance() {
         return balance.setScale(2, RoundingMode.HALF_EVEN);
     }
-
     protected void setBalance(BigDecimal value) {
         balance = value;
         balance.setScale(2, RoundingMode.HALF_EVEN);

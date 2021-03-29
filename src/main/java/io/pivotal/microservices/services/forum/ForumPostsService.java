@@ -107,21 +107,6 @@ public class ForumPostsService {
             return Arrays.asList(threads);
     }
 
-    public List<Post> getForum() {
-        logger.info("getForum() invoked.");
-        Post[] posts = null;
-
-        try {
-            posts = restTemplate.getForObject(serviceUrl + "/posts/getforum", Post[].class);
-        } catch (HttpClientErrorException e) { // 404
-            // Nothing found
-        }
-
-        if (posts == null || posts.length == 0)
-            return null;
-        else
-            return Arrays.asList(posts);
-    }
     public void createThread(String accountNumber, String subject, String body) {
         logger.info("createThread() invoked.");
 

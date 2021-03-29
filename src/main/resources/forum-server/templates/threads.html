@@ -20,7 +20,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <!--<th>Thread ID</th>-->
+            <th>Thread ID</th>
             <th>Subject</th>
             <th>Body</th>
         </tr>
@@ -28,11 +28,11 @@
 
         <tbody>
         <tr th:each="post : ${firstposts}">
-            <!--
+
             <td><a href="posts.html"
                 th:href="@{|/posts/thread/${post.thread}|}"
                 th:text="|${post.thread}|">11111111</a></td>
-                -->
+
             <td><a href="posts.html"
             th:href="@{|/posts/thread/${post.thread}|}"
             th:text="|${post.subject}|">subject</a></td>

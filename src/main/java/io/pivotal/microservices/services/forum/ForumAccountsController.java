@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Client controller, fetches Account info from the microservice via
- * {@link ForumAcccountsService}.
+ * {@link ForumAccountsService}.
  *
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @Controller
 public class ForumAccountsController {
-
 
     @Autowired
     protected ForumAccountsService accountsService;
@@ -46,7 +45,7 @@ public class ForumAccountsController {
     @RequestMapping("/accounts/{accountNumber}")
     public String byNumber(Model model, @PathVariable("accountNumber") String accountNumber) {
 
-        logger.info("web-service byNumber() invoked: " + accountNumber);
+        logger.info("forum-service byNumber() invoked: " + accountNumber);
 
         Account account = accountsService.findByNumber(accountNumber);
 
@@ -55,17 +54,17 @@ public class ForumAccountsController {
             return "account";
         }
 
-        logger.info("web-service byNumber() found: " + account);
+        logger.info("forum-service byNumber() found: " + account);
         model.addAttribute("account", account);
         return "account";
     }
 
     @RequestMapping("/accounts/owner/{text}")
     public String ownerSearch(Model model, @PathVariable("text") String name) {
-        logger.info("web-service byOwner() invoked: " + name);
+        logger.info("forum-service byOwner() invoked: " + name);
 
         List<Account> accounts = accountsService.byOwnerContains(name);
-        logger.info("web-service byOwner() found: " + accounts);
+        logger.info("forum-service byOwner() found: " + accounts);
         model.addAttribute("search", name);
         if (accounts != null)
             model.addAttribute("accounts", accounts);
@@ -80,7 +79,7 @@ public class ForumAccountsController {
 
     @RequestMapping(value = "/accounts/dosearch")
     public String doSearch(Model model, SearchCriteria criteria, BindingResult result) {
-        logger.info("web-service search() invoked: " + criteria);
+        logger.info("forum-service search() invoked: " + criteria);
 
         criteria.validate(result);
 
@@ -95,6 +94,7 @@ public class ForumAccountsController {
             return ownerSearch(model, searchText);
         }
     }
+
     @RequestMapping(value = "/accounts/login", method = RequestMethod.GET)
     public String loginForm(Model model) {
         model.addAttribute("searchCriteria", new SearchCriteria());
@@ -103,7 +103,7 @@ public class ForumAccountsController {
 
     @RequestMapping(value = "/accounts/dologin")
     public String doLogin(Model model, SearchCriteria criteria, BindingResult result) {
-        logger.info("web-service login() invoked: " + criteria);
+        logger.info("forum-service login() invoked: " + criteria);
 
         criteria.validate(result);
 

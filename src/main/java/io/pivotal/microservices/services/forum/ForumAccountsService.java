@@ -17,7 +17,7 @@ import io.pivotal.microservices.exceptions.AccountNotFoundException;
 /**
  * Hide the access to the microservice inside this local service.
  *
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @Service
 public class ForumAccountsService {
