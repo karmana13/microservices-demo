@@ -44,7 +44,7 @@ public class ForumPostsController {
         return "index";
     }
 
-    @RequestMapping("/posts/{accountNumber}")
+    @RequestMapping("/posts/account/{accountNumber}")
     public String byNumber(Model model, @PathVariable("accountNumber") String accountNumber) {
 
         logger.info("post-service byNumber() invoked: " + accountNumber);
@@ -59,6 +59,17 @@ public class ForumPostsController {
 
         model.addAttribute("posts", posts);
         return "posts";
+    }
+    @RequestMapping("/posts/getthreads")
+    public String getThreads(Model model) {
+        logger.info("forum-service getThreads() invoked.");
+
+        List<String> threads = postsService.getThreads();
+        logger.info("forum-service getThreads() found: " + threads);
+        //model.addAttribute("search", name);
+        if (threads != null)
+            model.addAttribute("threads", threads);
+        return "threads";
     }
 
     @RequestMapping("/posts/subject/{subject}")

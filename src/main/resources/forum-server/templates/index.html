@@ -28,7 +28,7 @@
 
 		<li>Account <a th:href="@{/accounts/search}">Search</a></li>
 
-		<li>Fetch post by account #123456789: <a th:href="@{/posts/123456789}">/posts/123456789</a></li>
+		<li>Fetch post by account #123456789: <a th:href="@{/posts/account/123456789}">/posts/account/123456789</a></li>
 
 		<li>Fetch post by subject "ke": <a th:href="@{/posts/subject/ke}">/posts/subject/ke</a></li>
 
@@ -36,7 +36,9 @@
 
 		<li>Create New thread Form <a th:href="@{/posts/createthread}">/posts/createthread</a></li>
 
-		<li>Get Thread <a th:href="@{/posts/thread/999999999}">/posts/thread/999999999</a></li>
+		<li>Get Thread by thread ID<a th:href="@{/posts/thread/999999999}">/posts/thread/999999999</a></li>
+
+		<li>Get All Threads <a th:href="@{/posts/getthreads}">/posts/getthreads</a></li>
 	</ul>
 
 	<h3>Spring Boot URLs</h3>

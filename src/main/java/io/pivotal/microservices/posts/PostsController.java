@@ -222,4 +222,19 @@ public class PostsController {
 
         return results;
     }
+    /**
+     * Fetch all  threads.
+     *
+     * @return A non-null, non-empty set of threads
+     * @throws PostNotFoundException
+     *             If there are no matches at all.
+     */
+    @RequestMapping("/posts/getthreads")
+    public List<String> getthreads() {
+        logger.info("posts-service getthreads() invoked: "
+                + postRepository.getClass().getName());
+
+        return postRepository.getDistinctThreads();
+    }
+
 }
