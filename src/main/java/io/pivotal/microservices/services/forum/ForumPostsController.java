@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 @Controller
 public class ForumPostsController {
 
+    protected String currentThread;
 
     @Autowired
     protected ForumPostsService postsService;
@@ -108,6 +109,16 @@ public class ForumPostsController {
     @RequestMapping(value = "/posts/createthread", method = RequestMethod.GET)
     public String createThreadForm(Model model) {
         model.addAttribute("createThreadCriteria", new CreateThreadCriteria());
+        currentThread = null;
+        logger.info("currentThread = " + currentThread);
+        return "createthread";
+    }
+
+    @RequestMapping(value = "/posts/thread/{thread}/addtothread", method = RequestMethod.GET)
+    public String addToThreadForm(Model model, @PathVariable("thread") String thread) {
+        logger.info("adding post to thread" + thread);
+        currentThread = thread;
+        model.addAttribute("createThreadCriteria", new CreateThreadCriteria());
         return "createthread";
     }
 
@@ -120,13 +131,22 @@ public class ForumPostsController {
         if (result.hasErrors())
             return "createthread";
 
-
+        logger.info("criteria = " + criteria);
         String accountNumber = criteria.getAccountNumber();
         String subject = criteria.getSubject();
         String body = criteria.getBody();
 
+        logger.info("currentThread = " + currentThread);
+        if(null != currentThread) {
+            String thread = currentThread;
+            postsService.addToThread(thread, accountNumber, subject, body);
+        }
+        else
+        {
+            postsService.createThread(accountNumber, subject, body);
+        }
 
-        postsService.createThread(accountNumber, subject, body);
+        // postsService.createThread(accountNumber, subject, body);
         //return byNumber(model, accountNumber);
         return getForum(model);
     }

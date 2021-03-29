@@ -132,6 +132,17 @@ public class ForumPostsService {
             logger.severe(e.getClass() + ": " + e.getLocalizedMessage());
         }
     }
+    public void addToThread(String thread, String accountNumber, String subject, String body) {
+        logger.info("createThread() invoked.");
+
+        try {
+            restTemplate.getForObject(serviceUrl + "/posts/addtothread/{thread}/{account}/{subject}/{body}",
+                    Post.class, thread, accountNumber, subject, body);
+        } catch (Exception e) {
+            logger.severe(e.getClass() + ": " + e.getLocalizedMessage());
+        }
+    }
+
 
 
 

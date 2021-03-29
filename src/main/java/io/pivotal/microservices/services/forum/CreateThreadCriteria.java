@@ -72,10 +72,9 @@ public class CreateThreadCriteria {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return (StringUtils.hasText(accountNumber) ? "number: " + accountNumber
-                : "")
-                + (StringUtils.hasText(subject) ? " subject: " + subject
-                : "");
+
+        return ("accountNumner : " + accountNumber +
+                " subject : " + subject +
+                " body : " + body);
     }
 }
