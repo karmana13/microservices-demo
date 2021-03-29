@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  * Client controller, fetches Account info from the microservice via
- * {@link ForumAcccountsService}.
+ * {@link ForumPostsService}.
  *
  * @author Paul Chapman
  */

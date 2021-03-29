@@ -5,9 +5,9 @@
 <head th:replace="header :: copy"></head>
 
 <body>
-<h1>Account Search</h1>
+<h2>Create New Post</h2>
 
-<p>Enter Subject and body to create a new thread:</p>
+<p>Enter Subject and body:</p>
 
 <form class="bg-gray" action="#" th:object="${createThreadCriteria}" method="GET"
       th:action="@{/posts/docreatethread}">
@@ -48,7 +48,7 @@
     <!--  Submit button -->
     <div class="form-group">
         <div class="col-xs-offset-2 col-xs-10">
-            <button type="submit" class="btn btn-primary">Find</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
 </form>
