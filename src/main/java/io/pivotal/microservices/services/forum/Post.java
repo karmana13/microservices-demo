@@ -24,6 +24,12 @@ public class Post {
      */
     protected Post() { }
 
+    protected Post(String accountNumber, String subject, String body ) {
+        this.number = accountNumber;
+        this.subject = subject;
+        this.body = body;
+    }
+
     public long getId() {
         return id;
     }

@@ -1,0 +1,76 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+<body>
+<h1>Account Search</h1>
+
+<p>Enter Subject and body to create a new thread:</p>
+
+<form class="bg-gray" action="#" th:object="${createThreadCriteria}" method="GET"
+      th:action="@{/posts/docreatethread}">
+
+    <div class="row">
+        <!-- Account Number field -->
+        <div class="form-group col-4">
+            <label for="number" class="control-label col-xs-2">Account Number</label>
+            <input type="text" class="form-control" id="number"
+                   th:field="*{accountNumber}" placeholder="Enter account number" style="width: 15em;" />
+            <small class="form-text text-muted">Enter a valid 9 digit number</small>
+        </div>
+
+        <!-- Account Number errors (if any) -->
+        <div class="col-5 p-4">
+ 				<span th:if="${#fields.hasErrors('accountNumber')}"
+                      style="color: red; font-size: smaller" th:errors="*{accountNumber}">Incorrect account!</span>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <!-- Subject field -->
+        <div class="form-group col-4">
+            <label for="text" class="control-label col-xs-2">Subject</label>
+            <input type="text" class="form-control" id="text"
+                   th:field="*{subject}" placeholder="Enter Subject"
+                   style="width: 50em;"/>
+        </div>
+
+        <!-- subject errors (if any) -->
+        <div class="col-5 p-4">
+ 				<span th:if="${#fields.hasErrors('subject')}"
+                      style="color: red; font-size: smaller" th:errors="*{subject}"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Body field -->
+        <div class="form-group col-4">
+            <label for="text" class="control-label col-xs-2">Body</label>
+            <input type="text" class="form-control" id="text"
+                   th:field="*{body}" placeholder="Enter Subject"
+                   style="width: 50em;"/>
+        </div>
+
+        <!-- subject errors (if any) -->
+        <div class="col-5 p-4">
+ 				<span th:if="${#fields.hasErrors('body')}"
+                      style="color: red; font-size: smaller" th:errors="*{body}"></span>
+        </div>
+    </div>
+
+
+    <!--  Submit button -->
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <button type="submit" class="btn btn-primary">Find</button>
+        </div>
+    </div>
+</form>
+
+<div th:replace="footer :: copy"></div>
+
+</body>
+</html>

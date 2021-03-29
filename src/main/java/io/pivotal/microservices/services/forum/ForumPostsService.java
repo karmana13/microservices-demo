@@ -89,5 +89,17 @@ public class ForumPostsService {
         else
             return Arrays.asList(posts);
     }
+    public void createThread(String accountNumber, String subject, String body) {
+        logger.info("createThread() invoked.");
+
+        try {
+            restTemplate.getForObject(serviceUrl + "/posts/createthread/{accountNumber}/{subject}/{body}",
+                    Post.class, accountNumber, subject, body);
+        } catch (Exception e) {
+            logger.severe(e.getClass() + ": " + e.getLocalizedMessage());
+        }
+    }
+
+
 
 }

@@ -36,7 +36,7 @@ public class ForumPostsController {
     @InitBinder
     // TODO need to understand purpose of this.
     public void initBinder(WebDataBinder binder) {
-        binder.setAllowedFields("accountNumber", "searchText");
+        binder.setAllowedFields("accountNumber", "subject", "body");
     }
 
     @RequestMapping("/posts")
@@ -83,6 +83,33 @@ public class ForumPostsController {
             model.addAttribute("posts", posts);
         return "posts";
     }
+
+    @RequestMapping(value = "/posts/createthread", method = RequestMethod.GET)
+    public String createThreadForm(Model model) {
+        model.addAttribute("createThreadCriteria", new CreateThreadCriteria());
+        return "createthread";
+    }
+
+    @RequestMapping(value = "/posts/docreatethread")
+    public String doCreateThread(Model model, CreateThreadCriteria criteria, BindingResult result) {
+        logger.info("post-service doCreateThread() invoked: " + criteria);
+
+        criteria.validate(result);
+
+        if (result.hasErrors())
+            return "createthread";
+
+
+        String accountNumber = criteria.getAccountNumber();
+        String subject = criteria.getSubject();
+        String body = criteria.getBody();
+
+
+        postsService.createThread(accountNumber, subject, body);
+        //return byNumber(model, accountNumber);
+        return getForum(model);
+    }
+
 
      /*
      @RequestMapping(value = "/accounts/search", method = RequestMethod.GET)
