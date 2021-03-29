@@ -27,7 +27,7 @@ public class Post implements Serializable {
 	@Id
 	protected Long id;
 
-	protected String number; //TODO  modify to accountnumber
+	protected String number;
 	protected String thread;
 
 	@Column(name = "subject")

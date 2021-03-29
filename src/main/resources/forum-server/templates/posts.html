@@ -16,12 +16,6 @@
 </div>
 
 <div th:if="${posts}">
-   <!--
-   <p>
-        Posts ' <span th:text="${search}">text</span>'
-        are:
-    </p>
-    -->
 
     <table class="table table-striped">
         <thead>
@@ -35,12 +29,6 @@
 
         <tbody>
         <tr th:each="post : ${posts}">
-            <!--
-            <td><a href="account.html"
-                th:href="@{|/accounts/${account.number}|}"
-                th:text="|${account.number}|">11111111</a></td>
-                -->
-            <!-- <td th:text="${post.thread}">11111111</td> -->
             <td th:text="${post.number}">11111111</td>
             <td th:text="${post.subject}">Owner</td>
             <td th:text="${post.body}">body</td>
