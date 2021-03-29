@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import io.pivotal.microservices.services.accounts.AccountsServer;
 import io.pivotal.microservices.services.registration.RegistrationServer;
 import io.pivotal.microservices.services.web.WebServer;
+import io.pivotal.microservices.services.posts.PostsServer;
 
 /**
  * Allow the servers to be invoked from the command-line. The jar is built with
@@ -64,7 +65,9 @@ public class Main {
             RegistrationServer.main(args);
         } else if (serverName.equals("accounts")) {
             AccountsServer.main(args);
-        } else if (serverName.equals("web")) {
+        }  else if (serverName.equals("post")) {
+            PostsServer.main(args);
+        }  else if (serverName.equals("web")) {
             WebServer.main(args);
         } else {
             // Unrecognized server type - print usage and exit

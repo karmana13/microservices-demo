@@ -38,4 +38,17 @@ public interface PostRepository extends CrudRepository<Post, Long> {
      */
     @Query("SELECT count(*) from Post")
     public int countAccounts();
+
+    	/*
+ 	@Query("SELECT DISTINCT p.name FROM People p WHERE p.name NOT IN ?1")
+ 	List<String> findNonReferencedNames(List<String> names);
+ 	 */
+
+    /**
+     * Fetch the threads known to the system.
+     *
+     * @return The list of threads.
+     */
+    @Query("SELECT DISTINCT thread from Post")
+    public List<String> getDistinctThreads();
 }

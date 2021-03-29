@@ -1,5 +1,5 @@
 package io.pivotal.microservices.posts;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -186,5 +186,40 @@ public class PostsController {
         else {
             return posts;
         }
+    }
+
+
+    /**
+     * Fetch all posts group by threads.
+     *
+     * @return A non-null, non-empty set of threads, that includes all posts.
+     * @throws PostNotFoundException
+     *             If there are no matches at all.
+     */
+    @RequestMapping("/posts/getforum")
+    public List<List<Post>> getforum() {
+        logger.info("posts-service getforum() invoked: "
+                + postRepository.getClass().getName());
+
+        List<List<Post>> results = new ArrayList<List<Post>>();
+
+        List<String> threads = postRepository.getDistinctThreads();
+
+        logger.info("post-service getforum() found threads : " + threads);
+
+        for(String thread: threads)
+        {
+            List<Post> postsInThread = postRepository.findByThread(thread);
+            results.add(postsInThread);
+        }
+
+        for(List<Post> plist: results)
+        {
+            logger.info("post-service getforum() thread by thread:" + plist);
+        }
+
+        logger.info("post-service getforum() results :" + results);
+
+        return results;
     }
 }
