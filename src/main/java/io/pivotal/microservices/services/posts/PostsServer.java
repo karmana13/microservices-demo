@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * This class declares no beans and current package contains no components for
  * ComponentScan to find.
  *
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -42,8 +42,8 @@ public class PostsServer {
         if (System.getProperty(RegistrationServer.REGISTRATION_SERVER_HOSTNAME) == null)
             System.setProperty(RegistrationServer.REGISTRATION_SERVER_HOSTNAME, "localhost");
 
-        // Tell server to look for accounts-server.properties or
-        // accounts-server.yml
+        // Tell server to look for posts-server.properties or
+        // posts-server.yml
         System.setProperty("spring.config.name", "posts-server");
 
         SpringApplication.run(PostsServer.class, args);

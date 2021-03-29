@@ -6,7 +6,7 @@ import java.math.RoundingMode;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 /**
- * Account DTO - used to interact with the {@link ForumAcccountsService}.
+ * Account DTO - used to interact with the {@link ForumAccountsService}.
  *
  * @author Karmana Trivedi
  */

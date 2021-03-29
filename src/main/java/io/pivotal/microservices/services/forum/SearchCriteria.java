@@ -3,6 +3,10 @@ package io.pivotal.microservices.services.forum;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
+/**
+ * criteria class to validate Account Login form.
+ */
+
 public class SearchCriteria {
     private String accountNumber;
 

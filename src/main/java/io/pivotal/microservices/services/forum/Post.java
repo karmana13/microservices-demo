@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Account DTO - used to interact with the {@link ForumAcccountsService}.
+ * Post DTO - used to interact with the {@link ForumPostsService}.
  *
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @JsonRootName("Post")
 public class Post {
@@ -20,26 +20,29 @@ public class Post {
     protected String body;
 
     /**
-     * Default constructor for JPA only.
+     * default constructor. does nothing.
      */
     protected Post() { }
 
+    /**
+     * Constructor that creates a Post object with below parameters.
+     * @param accountNumber
+     * @param subject
+     * @param body
+     */
     protected Post(String accountNumber, String subject, String body ) {
         this.number = accountNumber;
         this.subject = subject;
         this.body = body;
     }
 
+    /**
+     * Get and Set methods.
+     */
+
     public long getId() {
         return id;
     }
-
-    /**
-     * Set JPA id - for testing and JPA only. Not intended for normal use.
-     *
-     * @param id
-     *            The new id.
-     */
     protected void setId(long id) {
         this.id = id;
     }
@@ -47,7 +50,6 @@ public class Post {
     public String getNumber() {
         return number;
     }
-
     protected void setNumber(String accountNumber) {
         this.number = accountNumber;
     }
@@ -55,7 +57,6 @@ public class Post {
     public String getThread() {
         return thread;
     }
-
     protected void setThread(String thread) {
         this.thread = thread;
     }
@@ -63,7 +64,6 @@ public class Post {
     public String getSubject() {
         return subject;
     }
-
     protected void setSubject(String subject) {
         this.subject = subject;
     }
@@ -71,14 +71,13 @@ public class Post {
     public String getBody() {
         return body;
     }
-
     protected void setBody(String body) {
         this.body = body;
     }
 
     @Override
     public String toString() {
-        return number + " [" + subject + "]: $" + body;
+        return "[" + thread + "]" + number + " [" + subject + "]: $" + body;
     }
 
 }

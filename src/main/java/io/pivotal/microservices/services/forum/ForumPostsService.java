@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Hide the access to the microservice inside this local service.
- *
- * @author Paul Chapman
+ * Forum Post Service that implements all services used by the controller.
  */
 @Service
 public class ForumPostsService {
@@ -33,16 +31,10 @@ public class ForumPostsService {
     }
 
     /**
-     * The RestTemplate works because it uses a custom request-factory that uses
-     * Ribbon to look-up the service to use. This method simply exists to show this.
+     * find Posts by Account number. calls post service to get list of posts.
+     * @param accountNumber
+     * @return
      */
-    @PostConstruct
-    public void demoOnly() {
-        // Can't do this in the constructor because the RestTemplate injection
-        // happens afterwards.
-        logger.warning("The RestTemplate request factory is " + restTemplate.getRequestFactory().getClass());
-    }
-
     public List<Post> findByNumber(String accountNumber) {
         logger.info("getByNumber() invoked:  for " + accountNumber);
         Post[] posts = null;
@@ -59,22 +51,11 @@ public class ForumPostsService {
             return Arrays.asList(posts);
     }
 
-    public List<Post> bySubjectContains(String name) {
-        logger.info("bySubjectContains() invoked:  for " + name);
-        Post[] posts = null;
-
-        try {
-            posts = restTemplate.getForObject(serviceUrl + "/posts/subject/{name}", Post[].class, name);
-        } catch (HttpClientErrorException e) { // 404
-            // Nothing found
-        }
-
-        if (posts == null || posts.length == 0)
-            return null;
-        else
-            return Arrays.asList(posts);
-    }
-
+    /**
+     * find Posts by thread. calls post service to get list of posts.
+     * @param thread
+     * @return
+     */
     public List<Post> byThread(String thread) {
         logger.info("byThread() invoked:  for " + thread);
         Post[] posts = null;
@@ -91,6 +72,10 @@ public class ForumPostsService {
             return Arrays.asList(posts);
     }
 
+    /**
+     * get list of threads. calls post service to get list of threads.
+     * @return
+     */
     public List<String> getThreads() {
         logger.info("getThreads() invoked.");
         String[] threads = null;
@@ -107,6 +92,12 @@ public class ForumPostsService {
             return Arrays.asList(threads);
     }
 
+    /**
+     * create new thread and adds a post.
+     * @param accountNumber
+     * @param subject
+     * @param body
+     */
     public void createThread(String accountNumber, String subject, String body) {
         logger.info("createThread() invoked.");
 
@@ -117,6 +108,14 @@ public class ForumPostsService {
             logger.severe(e.getClass() + ": " + e.getLocalizedMessage());
         }
     }
+
+    /**
+     * adds a post to existing thread.
+     * @param thread
+     * @param accountNumber
+     * @param subject
+     * @param body
+     */
     public void addToThread(String thread, String accountNumber, String subject, String body) {
         logger.info("createThread() invoked.");
 
@@ -127,8 +126,4 @@ public class ForumPostsService {
             logger.severe(e.getClass() + ": " + e.getLocalizedMessage());
         }
     }
-
-
-
-
 }

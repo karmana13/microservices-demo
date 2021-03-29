@@ -1,4 +1,5 @@
 package io.pivotal.microservices.services.forum;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -8,18 +9,22 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
+
 import io.pivotal.microservices.services.registration.RegistrationServer;
+
 /**
- * Accounts web-server. Works as a microservice client, fetching data from the
- * Account-Service. Uses the Discovery Server (Eureka) to find the microservice.
+ * Forum-server. Works as a microservice client, fetching data from the
+ * Account-Service and Post-Service.
+ * Uses the Discovery Server (Eureka) to find the microservice.
  *
- * @author Paul Chapman
+ * @author Karmana Trivedi
  */
 @SpringBootApplication(exclude = { HibernateJpaAutoConfiguration.class, //
         DataSourceAutoConfiguration.class })
 @EnableDiscoveryClient
 @ComponentScan(useDefaultFilters = false) // Disable component scanner
 public class ForumServer {
+
     /**
      * URL uses the logical name of account-service - upper or lower case, doesn't
      * matter.
@@ -36,10 +41,12 @@ public class ForumServer {
         // Default to registration server on localhost
         if (System.getProperty(RegistrationServer.REGISTRATION_SERVER_HOSTNAME) == null)
             System.setProperty(RegistrationServer.REGISTRATION_SERVER_HOSTNAME, "localhost");
+
         // Tell server to look for web-server.properties or web-server.yml
         System.setProperty("spring.config.name", "forum-server");
         SpringApplication.run(ForumServer.class, args);
     }
+
     /**
      * A customized RestTemplate that has the ribbon load balancer build in. Note
      * that prior to the "Brixton"
@@ -51,6 +58,7 @@ public class ForumServer {
     RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
     /**
      * The AccountService encapsulates the interaction with the micro-service.
      *
@@ -60,6 +68,7 @@ public class ForumServer {
     public ForumAccountsService accountsService() {
         return new ForumAccountsService(ACCOUNTS_SERVICE_URL);
     }
+
     /**
      * Create the controller, passing it the {@link ForumAccountsService} to use.
      *

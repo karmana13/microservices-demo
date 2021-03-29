@@ -3,7 +3,9 @@ package io.pivotal.microservices.services.forum;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 
-// criteria class to validate add post form.
+/**
+ * criteria class to validate add post form.
+ */
 public class CreateThreadCriteria {
 
     private String subject;
